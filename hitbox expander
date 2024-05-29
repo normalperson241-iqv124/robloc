@@ -1,29 +1,166 @@
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
 -- window
 local Window = Library.CreateLib("hitbox expander", "DarkTheme")
 local Tab = Window:NewTab("Hitbox Expander")
 local Section = Tab:NewSection("credits: xheptc (ui), majj (theflawless on dc) (esp)")
 
-Section:NewButton("Hitbox Expander", "read the name", function()
-_G.HeadSize = 15 _G.Disabled = true 
-game:GetService('RunService').RenderStepped:connect(function()
- if _G.Disabled then
-  for i,v in next, game:GetService('Players'):GetPlayers() do
-   if v.Name ~= game:GetService('Players').LocalPlayer.Name then
-    pcall(function() v.Character.Head.Size = Vector3.new(_G.HeadSize,_G.HeadSize,_G.HeadSize) 
-	v.Character.Head.Transparency = 0.35 
-	v.Character.Head.BrickColor = BrickColor.new("Red") 
-	v.Character.Head.Material = "Neon" 
-	v.Character.Head.CanCollide = false 
-	v.Character.Head.Massless = true 
-	end) 
-	end 
-	end 
-	end 
-	end)
+
+Section:NewToggle("Hitbox Expander", "extends the hitbox of the player making them easier to hit", function(state)
+    if state then
+        
+        _G.HeadSize = 15 _G.Disabled = false
+                                                                                                                                            
+        game:GetService('RunService').RenderStepped:connect(function()
+                                                                                                                                            
+         if _G.Disabled == false then
+                                                                                                                                            
+         for i,v in next, game:GetService('Players'):GetPlayers() do
+                                                                                                                                            
+         if v.Name ~= game:GetService('Players').LocalPlayer.Name then
+                                                                                                                                            
+         pcall(function() v.Character.Head.Size = Vector3.new(_G.HeadSize,_G.HeadSize,_G.HeadSize) 
+                                                                                                                                                
+        v.Character.Head.Transparency = 0.35 
+                                                                                                                                                
+        v.Character.Head.BrickColor = BrickColor.new("Really red") 
+                                                                                                                                                
+        v.Character.Head.Material = "Neon" 
+                                                                                                                                                
+        v.Character.Head.CanCollide = false 
+                                                                                                                                                
+        v.Character.Head.Massless = true 
+                                                                                                                                                
+        end) 
+                                                                                                                                                
+        end 
+                                                                                                                                                
+        end 
+                                                                                                                                                
+        end 
+                                                                                                                                                
+        end)
+    else
+        _G.HeadSize = 3 _G.Disabled = true
+                                                                                                                                            
+        game:GetService('RunService').RenderStepped:connect(function()
+                                                                                                                                            
+         if _G.Disabled == true then
+                                                                                                                                            
+         for i,v in next, game:GetService('Players'):GetPlayers() do
+                                                                                                                                            
+         if v.Name ~= game:GetService('Players').LocalPlayer.Name then
+                                                                                                                                            
+         pcall(function() v.Character.Head.Size = Vector3.new(_G.HeadSize,_G.HeadSize,_G.HeadSize) 
+                                                                                                                                                
+        v.Character.Head.Transparency = 0.35 
+                                                                                                                                                
+        v.Character.Head.BrickColor = BrickColor.new("Really red") 
+                                                                                                                                                
+        v.Character.Head.Material = "Neon" 
+                                                                                                                                                
+        v.Character.Head.CanCollide = false 
+                                                                                                                                                
+        v.Character.Head.Massless = true 
+                                                                                                                                                
+        end) 
+                                                                                                                                                
+        end 
+                                                                                                                                                
+        end 
+                                                                                                                                                
+        end 
+                                                                                                                                                
+        end)
+    end
 end)
-Section:NewButton("Skidded Esp (click again if some dont highlight)", "highlights all the players in the server", function()
-    	for _,player in pairs(game.Players:GetPlayers()) do
-  	Instance.new("Highlight", player.Character)
-	end
+
+Section:NewToggle("ESP (disable not working and im lazy)", "highlights all the players in the server", function(state)
+    if state then
+
+            local Players = game:GetService("Players")
+                                                                                                                                              
+            local RunService = game:GetService("RunService")
+                                                                                                                                                 
+            local Highlight = Instance.new("Highlight")
+
+            local toggled = false
+                                                                                                                                                   
+            Highlight.Name = "Highlight"
+                                                                                                                                                   
+            function ApplyToCurrentPlayers()
+                                                                                                                                                      
+                for i,player in pairs(Players:GetChildren()) do 
+                                                                                                                                                         
+                    repeat wait() until player.Character
+                                                                                                                                                          
+                    if not player.Character:FindFirstChild("HumanoidRootPart"):FindFirstChild("Highlight") then
+                                                                                                                                                                
+                        local HighlightClone = Highlight:Clone()
+                                                                                                                                                                
+                        HighlightClone.Adornee = player.Character
+                                                                                                                                                              
+                                                                                                                                                                  
+                        HighlightClone.Parent = player.Character:FindFirstChild("HumanoidRootPart")
+                                                                                                                                                                
+                        HighlightClone.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+                                                                                                                                                             
+                        HighlightClone.Name = "Highlight"
+                                                                                                                                                         
+                    end
+                                                                                                                                                       
+                end
+                                                                                                                                                   
+            end    
+                                                                                                                                               
+        RunService.Heartbeat:Connect(function()
+                                                                                                                                                 
+            ApplyToCurrentPlayers()
+                                                                                                                                               
+        end)
+        else
+            local Players = game:GetService("Players")
+                                                                                                                                              
+            local RunService = game:GetService("RunService")
+                                                                                                                                                 
+            local Highlight = Instance.new("Highlight")
+
+            local toggled = false
+                                                                                                                                                   
+            Highlight.Name = "Highlight"
+                                                                                                                                                   
+            function ApplyToCurrentPlayers()
+                                                                                                                                                      
+                for i,player in pairs(Players:GetChildren()) do 
+                                                                                                                                                         
+                    repeat wait() until player.Character
+                                                                                                                                                          
+                    if not player.Character:FindFirstChild("HumanoidRootPart"):FindFirstChild("Highlight") then
+                                                                                                                                                                
+                        local HighlightClone = Highlight:Clone()
+                                                                                                                                                                
+                        HighlightClone.Adornee = player.Character
+                                                                                                                                                              
+                                                                                                                                                                  
+                        HighlightClone.Parent = player.Character:FindFirstChild("HumanoidRootPart")
+                                                                                                                                                                
+                        HighlightClone.DepthMode = Enum.HighlightDepthMode.Occluded
+                                                                                                                                                             
+                        HighlightClone.Name = "Highlight"
+                                                                                                                                                         
+                    end
+                                                                                                                                                       
+                end
+                                                                                                                                                   
+            end    
+                                                                                                                                               
+        RunService.Heartbeat:Connect(function()
+                                                                                                                                                 
+            ApplyToCurrentPlayers()
+                                                                                                                                               
+        end)
+
+    end
+        
 end)
